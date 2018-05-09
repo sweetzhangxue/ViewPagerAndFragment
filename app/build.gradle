@@ -1,0 +1,119 @@
+apply plugin: 'com.android.application'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties();
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    signingConfigs {
+//        config {
+//            keyAlias keystoreProperties["keyAlias"]
+//            keyPassword keystoreProperties["keyPassword"]
+//            storeFile file(keystoreProperties["storeFile"])
+//            storePassword keystoreProperties["storePassword"]
+//        }
+        debug {
+            keyAlias 'zx'
+            keyPassword '111111'
+            storeFile file('E:/Azx2018/gradle打包/viewpager.jks')
+            storePassword '111111'
+        }
+        release {
+            keyAlias 'zx'
+            keyPassword '111111'
+            storeFile file('E:/Azx2018/gradle打包/viewpager.jks')
+            storePassword '111111'
+        }
+    }
+    compileSdkVersion 26
+
+    defaultConfig {
+        applicationId "com.example.administrator.viewpagerandfragment"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        flavorDimensions "versionCode"
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "000"]
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            //不显示log
+            buildConfigField "boolean", "LEO_DEBUG", "false"
+            //是否混淆
+            minifyEnabled false
+            //是否进行zipalign优化
+            zipAlignEnabled false
+            //是否移除无用的resource文件
+//            shrinkResources true;
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    productFlavors {
+        baidu {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "001"]
+        }
+        _360 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "002"]
+        }
+        yingyongbao {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "003"]
+        }
+        wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "004"]
+        }
+        xiaomi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "005"]
+        }
+        huawei {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "006"]
+        }
+        anzhi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "007"]
+        }
+        sanxing {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "008"]
+        }
+        yingyonghui {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "009"]
+        }
+        mumayi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "024"]
+        }
+        qita {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "010"]
+        }
+        xiaowo {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "011"]
+        }
+        guanwang {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "zhengshi"]
+        }
+    }
+    //Error:All flavors must now belong to a named flavor dimension. Learn more at https://d.android.com/r/tools/flavorDimensions-missing-error-message.html
+}
+
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
+}
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestCompile 'com.android.support:support-annotations:27.1.1'
+    implementation files('libs/SecurityEnvSDK-release-1.1.0.jar')
+    implementation files('libs/umeng-analytics-7.5.1.jar')
+    implementation files('libs/umeng-common-1.5.1.jar')
+    implementation files('libs/umeng-debug-1.0.0.jar')
+    implementation files('libs/utdid4all-1.1.5.3_proguard.jar')
+}
